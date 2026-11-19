@@ -714,12 +714,11 @@ function viewSession() {
 }
 function goTab(t) { if (S.tab === t) { render(); window.scrollTo({ top: 0 }); } else location.hash = t; }
 const sessionList = d => { const list = [...d.plan]; for (const e of d.entries) if (!list.includes(e.ex)) list.push(e.ex); return list; };
-function dayChip(x, sugDay) {
+function dayChip(x) {
   return `<button type="button" class="daychip" data-act="pickday" data-day="${x.id}" style="--c:${x.c}">
     <span class="plate"></span><b>${x.name}</b><small>${x.sub}</small></button>`;
 }
 function viewPick() {
-  const sug = suggestedDay();
   const today = sessionsAsc().filter(s => s.date === todayISO() && !s.ejemplo);
   const t = today[today.length - 1], active = S.stage === 'log';
   return `<section class="pick">
@@ -727,8 +726,7 @@ function viewPick() {
     ${levelChip()}
     ${active ? `<div class="today-note"><p>Tienes una sesión en curso: <b>${dayOf(S.draft.day).name}</b>.</p><a class="btn" href="#sesion">Volver a la sesión</a></div>`
       : t ? `<div class="today-note"><p>Hoy ya registraste <b>${dayOf(t.day).name}</b>.</p><button class="btn" data-act="editsess" data-id="${esc(t.id)}">Abrir esa sesión</button></div>` : ''}
-    <div class="days">${DAYS.map(x => dayChip(x, sug.day)).join('')}</div>
-    <p class="hint">${sug.last ? `Según tu rotación (Push, Pull, Pierna, Hombro) hoy te toca <b>${dayOf(sug.day).name}</b>: tu última sesión de fuerza fue ${dayOf(sug.last.day).name} el ${fmtDate(sug.last.date)}.` : 'Elige qué vas a entrenar. En el siguiente paso armas la rutina del día.'}</p>
+    <div class="days">${DAYS.map(dayChip).join('')}</div>
   </section>`;
 }
 function toolbar(back, backLabel, withDate) {
