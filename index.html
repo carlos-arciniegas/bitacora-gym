@@ -26,6 +26,7 @@
   --day-mob: #17807F;
   --day-cardio: #B83A66;
   --day-wod: #30353C;
+  --rank-legend: #B8901F;
   --display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
   --body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
   --r: 10px;
@@ -35,7 +36,7 @@
     --bg: #111315; --surface: #1A1D20; --surface-2: #24282C; --ink: #ECEEEF; --ink-2: #B4B9BF; --ink-3: #868C93; --line: #2D3237;
     --accent: #6E9BE6; --accent-ink: #0C1422; --accent-soft: #1C2a40; --good: #5FBF85; --bad: #F0796C;
     --plate-red: #E2554A; --plate-blue: #6E9BE6; --plate-yellow: #E3B43A; --plate-green: #58AE6B;
-    --day-full: #A48BE0; --day-core: #F08A45; --day-mob: #4CC2BF; --day-cardio: #EE7BA2; --day-wod: #C9CED4;
+    --day-full: #A48BE0; --day-core: #F08A45; --day-mob: #4CC2BF; --day-cardio: #EE7BA2; --day-wod: #C9CED4; --rank-legend: #E3C25A;
     color-scheme: dark;
   }
 }
@@ -43,7 +44,7 @@
   --bg: #111315; --surface: #1A1D20; --surface-2: #24282C; --ink: #ECEEEF; --ink-2: #B4B9BF; --ink-3: #868C93; --line: #2D3237;
   --accent: #6E9BE6; --accent-ink: #0C1422; --accent-soft: #1C2a40; --good: #5FBF85; --bad: #F0796C;
   --plate-red: #E2554A; --plate-blue: #6E9BE6; --plate-yellow: #E3B43A; --plate-green: #58AE6B;
-    --day-full: #A48BE0; --day-core: #F08A45; --day-mob: #4CC2BF; --day-cardio: #EE7BA2; --day-wod: #C9CED4;
+    --day-full: #A48BE0; --day-core: #F08A45; --day-mob: #4CC2BF; --day-cardio: #EE7BA2; --day-wod: #C9CED4; --rank-legend: #E3C25A;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -301,6 +302,42 @@ dialog.sheet::backdrop { background: rgb(0 0 0 / .5); }
 .tag { font-size: .82rem; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; color: var(--ink-2); }
 .steps { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 6px; max-width: 62ch; }
 .credit { font-size: .8rem; color: var(--ink-3); margin: 0; }
+/* Levels and achievements */
+.lvchip { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 6px 12px 6px 6px; min-height: 44px; }
+.lvchip .grow { flex: 1; min-width: 0; }
+.lvchip small { display: block; color: var(--ink-3); font-size: .84rem; }
+.emblem { flex: none; display: block; }
+.emblem .n { font-family: var(--display); font-weight: 700; fill: var(--ink); }
+.lvl { gap: 14px; }
+.lvl-top { display: flex; gap: 14px; align-items: center; }
+.lvl-top .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.lvl-rank { font-family: var(--display); font-weight: 700; font-size: 1.7rem; text-transform: uppercase; line-height: 1; }
+.lvl-n { font-weight: 600; color: var(--ink-2); }
+.xpbar { height: 10px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.xpbar i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.wdots { display: flex; gap: 6px; }
+.wdots span { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-size: .8rem; font-weight: 600; background: var(--surface-2); color: var(--ink-2); }
+.wdots span.on { background: var(--accent); color: var(--accent-ink); }
+.wdots span.today { box-shadow: inset 0 0 0 2px var(--ink); }
+.ranks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.ranks li { display: flex; align-items: center; gap: 8px; padding: 6px; border-radius: 8px; font-size: .86rem; line-height: 1.2; }
+.ranks li.locked { opacity: .45; }
+.ranks li.cur { background: var(--accent-soft); }
+.ranks small { display: block; color: var(--ink-2); }
+.achs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.ach { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 10px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.ach.done { border-color: color-mix(in srgb, var(--good) 55%, var(--line)); }
+.ach .top { display: flex; align-items: center; gap: 8px; }
+.ach .top svg.ic { color: var(--ink-3); }
+.ach.done .top svg.ic { color: var(--good); }
+.ach b { font-size: .95rem; }
+.ach p { margin: 0; font-size: .82rem; color: var(--ink-2); }
+.ach .xpbar { height: 6px; }
+.ach small { font-size: .8rem; color: var(--ink-3); }
+.ach.done small { color: var(--good); font-weight: 600; }
+.stepper { display: flex; align-items: center; gap: 12px; }
+.stepper b { font-family: var(--display); font-size: 1.5rem; min-width: 4ch; text-align: center; }
+.rankup { align-items: center; text-align: center; }
 </style>
 
 <header class="top gutter">
@@ -370,6 +407,7 @@ const S = {
   db: null, downloads: null, status: 'loading', loaded: { w: false, s: false, c: false },
   sync: '', syncErr: false, clearing: false, errs: {}, autoReps: new Set(),
   rest: { secs: 90, end: null, done: false, open: false }, routineAt: {}, planFrom: null,
+  progView: 'nivel', weekGoals: {}, celebrateUntil: 0, progSeen: null,
 };
 const svg = (d, cls = 'ic') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
 const ICON_X = svg('<path d="M6 6l12 12M18 6L6 18"/>');
@@ -556,7 +594,7 @@ function write(fn, okMsg) {
 }
 function setSync(text, err = false) { S.sync = text; S.syncErr = err; const el = $('#sync'); el.textContent = text; el.classList.toggle('err', err); if (err) announce(text); }
 function saveSettings() {
-  const body = { unit: S.unit, exercises: S.exercises, custom: S.custom, rest: S.rest.secs, routineAt: S.routineAt };
+  const body = { unit: S.unit, exercises: S.exercises, custom: S.custom, rest: S.rest.secs, routineAt: S.routineAt, weekGoals: S.weekGoals };
   write(() => S.db.doc('config/settings').set(body));
 }
 const hasContent = d => d.entries.some(e => e.sets.length) || (d.day === 'wod' && !!(d.wod?.result || d.wod?.desc));
@@ -686,6 +724,7 @@ function viewPick() {
   const t = today[today.length - 1], active = S.stage === 'log';
   return `<section class="pick">
     <h2>¿Qué toca hoy?</h2>
+    ${levelChip()}
     ${active ? `<div class="today-note"><p>Tienes una sesión en curso: <b>${dayOf(S.draft.day).name}</b>.</p><a class="btn" href="#sesion">Volver a la sesión</a></div>`
       : t ? `<div class="today-note"><p>Hoy ya registraste <b>${dayOf(t.day).name}</b>.</p><button class="btn" data-act="editsess" data-id="${esc(t.id)}">Abrir esa sesión</button></div>` : ''}
     <div class="days">${DAYS.map(x => dayChip(x, sug.day)).join('')}</div>
@@ -908,6 +947,165 @@ function openInfo(name) {
   if (!dlg.open) { try { dlg.showModal(); } catch { dlg.setAttribute('open', ''); } }
 }
 
+/* --- Levels and achievements --- */
+// XP is derived from the history every time (nothing stored), so rule changes recalculate cleanly.
+// Rank colors follow competition plates: 10 kg green, 15 yellow, 20 blue, 25 red, then black and gold.
+const RANKS = [
+  { name: 'Novato', from: 1, c: 'var(--plate-green)' },
+  { name: 'Aprendiz', from: 10, c: 'var(--plate-yellow)' },
+  { name: 'Atleta', from: 20, c: 'var(--plate-blue)' },
+  { name: 'Experto', from: 30, c: 'var(--plate-red)' },
+  { name: 'Élite', from: 40, c: 'var(--day-wod)' },
+  { name: 'Legendario', from: 50, c: 'var(--rank-legend)' },
+];
+const MAX_LEVEL = 50;
+// Cumulative XP per level: at 4–5 days a week, Experto takes ~6 months and Legendario ~2 years
+const xpFor = L => L <= 1 ? 0 : Math.ceil(16.5 * Math.pow(L - 1, 2.158) / 10) * 10;
+const levelOf = xp => { let L = 1; while (L < MAX_LEVEL && xpFor(L + 1) <= xp) L++; return L; };
+const rankOf = L => [...RANKS].reverse().find(r => L >= r.from);
+const weekStart = iso => { const n = dayNum(iso); return n - ((n + 3) % 7); };
+const weekIdx = iso => (dayNum(iso) + 3) % 7;
+const goalFor = wk => { const ks = Object.keys(S.weekGoals).map(Number).filter(k => k <= wk).sort((a, b) => b - a); return ks.length ? S.weekGoals[ks[0]] : 4; };
+// A day counts when it was a real workout, not a test set
+function validSession(s) {
+  const sets = (s.entries || []).flatMap(e => e.sets || []);
+  const reps = sets.filter(x => isW(x) || Number.isFinite(x.sec)).length;
+  const mins = sets.reduce((a, x) => a + (Number.isFinite(x.min) ? x.min : 0), 0);
+  return reps >= 6 || mins >= 15 || !!s.wod?.result;
+}
+const ACH = [
+  ['primer-dia', 'Primer día', 'Completa tu primera sesión.', s => s.sessions, 1],
+  ['constancia', 'Constancia', 'Completa 10 sesiones.', s => s.sessions, 10],
+  ['medio-centenar', 'Medio centenar', 'Completa 50 sesiones.', s => s.sessions, 50],
+  ['cien', 'Cien días de hierro', 'Completa 100 sesiones.', s => s.sessions, 100],
+  ['semana', 'Semana completa', 'Cumple tu meta de días en una semana.', s => s.weeksDone, 1],
+  ['racha4', 'Un mes sin fallar', 'Cumple tu meta 4 semanas seguidas.', s => s.bestStreak, 4],
+  ['record', 'Primer récord', 'Supera tu mejor marca en un ejercicio.', s => s.records, 1],
+  ['records25', 'Rompe-récords', 'Consigue 25 récords.', s => s.records, 25],
+  ['bascula', 'Báscula diaria', 'Registra tu peso 30 días.', s => s.weighIns, 30],
+  ['menos5', 'Menos 5', 'Baja 5 kg en tu promedio de 7 días.', s => s.lost, 5, 'kg'],
+  ['club100', 'Club de los 100', 'Levanta 100 kg en press de banca.', s => s.bench, 100, 'kg'],
+  ['club500', 'Club de los 500', 'Suma 500 kg entre tu mejor sentadilla, press de banca y peso muerto.', s => s.club, 500, 'kg'],
+  ['tonelaje', 'Tonelaje', 'Mueve 10,000 kg en una sola sesión.', s => s.maxVol, 10000, 'kg'],
+  ['explorador', 'Explorador', 'Prueba 25 ejercicios distintos.', s => s.distinct, 25],
+  ['motor', 'Motor', 'Haz 10 sesiones de cardio.', s => s.cardio, 10],
+  ['experto', 'Experto', 'Llega al nivel 30.', s => s.level, 30],
+];
+let progCache = null;
+function progress() {
+  const key = [S.sessions, S.weights, JSON.stringify(S.weekGoals), todayISO()];
+  if (progCache && progCache.key.every((k, i) => k === key[i])) return progCache.p;
+  const ss = sessionsAsc().filter(s => !s.ejemplo), ev = [];
+  const validDays = new Map();
+  for (const s of ss) if (validSession(s) && !validDays.has(s.date)) validDays.set(s.date, s.day);
+  const days = [...validDays.keys()].sort();
+  for (const d of days) ev.push({ date: d, xp: 50, label: `Sesión de ${dayOf(validDays.get(d)).name}` });
+  // Records: a jump of more than 20% at once earns nothing (likely a typo or a guess)
+  const best = {}; let records = 0;
+  for (const s of ss) {
+    let n = 0;
+    for (const e of s.entries || []) {
+      const sets = (e.sets || []).filter(isW); if (!sets.length) continue;
+      const cur = Math.max(...sets.map(x => e1rm(x.kg, x.reps))), prev = best[e.ex];
+      if (prev > 0 && cur > prev + 1e-9 && cur <= prev * 1.2 && n < 3) { n++; records++; ev.push({ date: s.date, xp: 100, label: `Récord en ${e.ex}` }); }
+      best[e.ex] = Math.max(prev ?? 0, cur);
+    }
+  }
+  const ws = S.weights.filter(w => !w.ejemplo);
+  for (const w of ws) ev.push({ date: w.date, xp: 5, label: 'Pesaje' });
+  const thisWeek = weekStart(todayISO()), byWeek = new Map();
+  for (const d of days) { const k = weekStart(d); byWeek.set(k, [...(byWeek.get(k) || []), d]); }
+  let streak = 0, bestStreak = 0, weeksDone = 0;
+  if (days.length) for (let k = weekStart(days[0]); k <= thisWeek; k += 7) {
+    const ds = byWeek.get(k) || [], goal = goalFor(k);
+    if (ds.length >= goal) {
+      streak++; weeksDone++; bestStreak = Math.max(bestStreak, streak);
+      const mult = Math.min(1.5, 1 + 0.1 * (streak - 1));
+      ev.push({ date: ds[goal - 1], xp: Math.round(150 * mult), label: mult > 1 ? `Semana completa, racha ×${fmtN(mult, 1)}` : 'Semana completa' });
+    } else if (k < thisWeek) streak = 0;
+  }
+  const xp = ev.reduce((a, e) => a + e.xp, 0), level = levelOf(xp);
+  const topKg = name => Math.max(0, ...ss.flatMap(s => (s.entries || []).filter(e => e.ex === name).flatMap(e => e.sets.filter(isW).map(x => x.kg))));
+  let lost = 0;
+  if (ws.length) { const last = dayNum(ws[ws.length - 1].date), recent = ws.filter(w => dayNum(w.date) > last - 7); lost = ws[0].kg - recent.reduce((a, w) => a + w.kg, 0) / recent.length; }
+  const stats = {
+    sessions: days.length, weeksDone, bestStreak, records, weighIns: ws.length, lost, level,
+    bench: topKg('Press de banca'), club: topKg('Sentadilla') + topKg('Press de banca') + topKg('Peso muerto'),
+    maxVol: Math.max(0, ...ss.map(s => (s.entries || []).reduce((a, e) => a + volOf(e.sets || []), 0))),
+    distinct: new Set(ss.flatMap(s => (s.entries || []).filter(e => e.sets?.length).map(e => e.ex))).size,
+    cardio: new Set(ss.filter(s => (s.entries || []).some(e => e.sets.some(x => Number.isFinite(x.min)))).map(s => s.date)).size,
+  };
+  const ach = ACH.map(([id, name, desc, f, goal, unit]) => { const v = Math.max(0, f(stats)); return { id, name, desc, v, goal, unit, done: v >= goal }; });
+  const p = {
+    xp, level, rank: rankOf(level), base: xpFor(level), next: level < MAX_LEVEL ? xpFor(level + 1) : null,
+    streak, curDays: (byWeek.get(thisWeek) || []).length, curIdx: new Set((byWeek.get(thisWeek) || []).map(weekIdx)),
+    goal: goalFor(thisWeek), ach, events: ev.sort((a, b) => b.date.localeCompare(a.date)),
+  };
+  progCache = { key, p };
+  return p;
+}
+function emblem(level, rank, size) {
+  return `<svg class="emblem" viewBox="0 0 100 100" width="${size}" height="${size}" aria-hidden="true">
+    <circle cx="50" cy="50" r="49" fill="${rank.c}"/><circle cx="50" cy="50" r="41" fill="none" stroke="var(--surface)" stroke-opacity=".35" stroke-width="2"/>
+    <circle cx="50" cy="50" r="27" fill="var(--surface)"/><text class="n" x="50" y="${level > 9 ? 59 : 60}" text-anchor="middle" font-size="${level > 9 ? 26 : 30}">${level}</text></svg>`;
+}
+const ICON_MEDAL = svg('<circle cx="12" cy="15" r="6"/><path d="M8.5 10.5L6 3h4l2 4.5L14 3h4l-2.5 7.5"/>');
+function levelChip() {
+  const p = progress();
+  return `<a class="lvchip" href="#progreso">${emblem(p.level, p.rank, 40)}<span class="grow"><b>Nivel ${p.level} · ${p.rank.name}</b>
+    <small>${p.next ? `${fmtN(p.next - p.xp, 0)} XP para el nivel ${p.level + 1}` : 'Nivel máximo'} · ${p.curDays}/${p.goal} días esta semana</small></span>${svg('<path d="M9 6l6 6-6 6"/>')}</a>`;
+}
+function viewLevel() {
+  const p = progress(), r = p.rank, pct = p.next ? (p.xp - p.base) / (p.next - p.base) : 1;
+  const today = weekIdx(todayISO()), done = p.ach.filter(a => a.done).length;
+  const nextMult = Math.min(1.5, 1 + 0.1 * p.streak);
+  const fmtV = (a, v) => a.unit === 'kg' ? `${fmtN(toU(v), 0)}` : fmtN(v, 0);
+  return `<section class="card lvl">
+    <div class="lvl-top">${emblem(p.level, r, 84)}<div class="grow">
+      <div class="lvl-rank">${r.name}</div><div class="lvl-n">Nivel ${p.level}</div>
+      <div class="xpbar" role="progressbar" aria-label="Progreso al siguiente nivel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pct * 100)}"><i style="width:${(pct * 100).toFixed(1)}%"></i></div>
+      <small class="muted">${p.next ? `${fmtN(p.xp, 0)} XP · faltan ${fmtN(p.next - p.xp, 0)} para el nivel ${p.level + 1}` : `${fmtN(p.xp, 0)} XP · nivel máximo`}</small></div></div>
+    <div class="row between"><span><b>${p.curDays} de ${p.goal}</b> días esta semana</span>
+      <div class="wdots" aria-label="Días entrenados esta semana">${['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((d, i) => `<span class="${p.curIdx.has(i) ? 'on' : ''} ${i === today ? 'today' : ''}">${d}</span>`).join('')}</div></div>
+    <p class="hint">${p.streak ? `Racha de <b>${plural(p.streak, 'semana', 'semanas')}</b> cumpliendo tu meta. La próxima semana completa vale <b>${Math.round(150 * nextMult)} XP</b>.` : 'Cumple tu meta esta semana para empezar una racha: cada semana seguida vale 10 % más, hasta 50 %.'}</p>
+  </section>
+  <section class="stack"><h3>Rangos</h3>
+    <ol class="ranks">${RANKS.map(x => `<li class="${x === r ? 'cur' : p.level < x.from ? 'locked' : ''}">${emblem(x.from, x, 34)}<span><b>${x.name}</b><small>nivel ${x.from}</small></span></li>`).join('')}</ol>
+  </section>
+  <section class="stack"><h3>Meta semanal</h3>
+    <div class="stepper"><button class="btn" data-act="goal" data-v="-1" aria-label="Un día menos" ${p.goal <= 2 ? 'disabled' : ''}>−</button><b>${p.goal} días</b><button class="btn" data-act="goal" data-v="1" aria-label="Un día más" ${p.goal >= 7 ? 'disabled' : ''}>+</button></div>
+    <p class="hint">Cumplirla da +150 XP. Cambiarla vale desde esta semana; las anteriores no cambian.</p>
+  </section>
+  <section class="stack"><h3>Logros (${done} de ${p.ach.length})</h3>
+    <ul class="achs">${p.ach.map(a => `<li class="ach ${a.done ? 'done' : ''}"><div class="top">${ICON_MEDAL}<b>${esc(a.name)}</b></div><p>${esc(a.desc)}</p>
+      ${a.done ? '<small>Conseguido</small>' : `<div class="xpbar" aria-hidden="true"><i style="width:${Math.min(100, a.v / a.goal * 100).toFixed(0)}%"></i></div><small>${fmtV(a, a.v)} de ${fmtV(a, a.goal)}${a.unit ? ' ' + S.unit : ''}</small>`}</li>`).join('')}</ul>
+  </section>
+  <section class="stack"><h3>Cómo se gana XP</h3>
+    <div class="tablewrap"><table><tbody>
+      <tr><td>Sesión completa (6 series, 15 min de cardio o un WOD)</td><td class="n">+50</td></tr>
+      <tr><td>Cumplir tu meta semanal</td><td class="n">+150</td></tr>
+      <tr><td>Récord personal (máximo 3 por sesión)</td><td class="n">+100</td></tr>
+      <tr><td>Registrar tu peso</td><td class="n">+5</td></tr>
+    </tbody></table></div>
+    <p class="hint">Cuenta una sesión por día. Un récord que sube más de 20 % de golpe no da XP, porque suele ser un error al escribir.</p>
+  </section>
+  ${p.events.length ? `<section class="stack"><h3>XP reciente</h3><div class="list">${p.events.slice(0, 10).map(e => `<div class="li"><div class="grow">${esc(e.label)}<div class="muted">${fmtDate(e.date)}</div></div><b>+${e.xp}</b></div>`).join('')}</div></section>` : ''}`;
+}
+// Compares against what was last seen. It celebrates only within a few seconds of the viewer's own
+// action (logging a set, a weigh-in or a WOD), so loading or restoring data stays quiet.
+const celebrate = () => { S.celebrateUntil = Date.now() + 4000; };
+function checkProgress() {
+  if (S.status !== 'ready') return;
+  const p = progress(), prev = S.progSeen;
+  S.progSeen = { level: p.level, rank: p.rank.name, ach: new Set(p.ach.filter(a => a.done).map(a => a.id)) };
+  if (!prev || Date.now() > S.celebrateUntil) return;
+  const msgs = [];
+  if (p.level > prev.level) msgs.push(p.rank.name !== prev.rank ? `¡Ahora eres ${p.rank.name}! Nivel ${p.level}` : `¡Subiste al nivel ${p.level}!`);
+  for (const a of p.ach) if (a.done && !prev.ach.has(a.id)) msgs.push(`Logro conseguido: ${a.name}`);
+  const wait = $('#toast').hidden ? 300 : 2800;
+  msgs.forEach((m, i) => setTimeout(() => toast(m, 2600), wait + i * 2800));
+}
+
 /* --- Peso --- */
 function viewWeight() {
   if (S.inputs['w-date'] === undefined) S.inputs['w-date'] = todayISO();
@@ -968,9 +1166,15 @@ function viewWeight() {
 
 /* --- Progreso --- */
 function viewProgress() {
+  const views = [['nivel', 'Nivel y logros'], ['ejercicios', 'Ejercicios']];
+  return `<section class="stack"><h2>Progreso</h2>
+    <div class="chips" role="group" aria-label="Vista">${views.map(([v, l]) => `<button class="chip" data-act="progview" data-v="${v}" aria-pressed="${S.progView === v}">${l}</button>`).join('')}</div></section>
+    ${S.progView === 'nivel' ? viewLevel() : viewExercises()}`;
+}
+function viewExercises() {
   const names = new Map();
   for (const s of sessionsAsc()) for (const e of s.entries || []) if ((e.sets || []).some(isW)) names.set(e.ex, s.date);
-  if (!names.size) return `<section class="stack"><h2>Progreso</h2><p class="empty">Cuando registres series con peso en Entrenar, aquí verás cómo sube tu 1RM estimado, tu peso máximo y tu volumen en cada ejercicio.</p></section>`;
+  if (!names.size) return `<section class="stack"><p class="empty">Cuando registres series con peso en Entrenar, aquí verás cómo sube tu 1RM estimado, tu peso máximo y tu volumen en cada ejercicio.</p></section>`;
   if (!S.progEx || !names.has(S.progEx)) S.progEx = [...names.entries()].sort((a, b) => b[1].localeCompare(a[1]))[0][0];
   const byDay = new Map();
   for (const n of names.keys()) { const d = exHistory(n).pop()?.day || 'other'; if (!byDay.has(d)) byDay.set(d, []); byDay.get(d).push(n); }
@@ -996,7 +1200,7 @@ function viewProgress() {
   const rows = summaryRows(names);
   return `
   <section class="stack">
-    <div class="row between"><h2>Progreso</h2>${select}</div>
+    ${select}
     <div class="tiles">
       <div class="tile"><div class="k">Mejor 1RM estimado</div><div class="v">${fw(best.e1)}<small>${S.unit}</small></div><div class="s">${fw(best.top.kg)}×${best.top.reps}, ${fmtShort(best.date)}</div></div>
       <div class="tile"><div class="k">Peso máximo</div><div class="v">${fw(heavy.top.kg)}<small>${S.unit}</small></div><div class="s">× ${heavy.top.reps} reps, ${fmtShort(heavy.date)}</div></div>
@@ -1230,7 +1434,13 @@ document.addEventListener('click', ev => {
       S.confirm = null; d.plan = d.plan.filter(n => n !== ex); S.open.delete(ex);
       keepLocal(); toast(`${ex} quitado de hoy`); return render();
     }
-    case 'goprog': S.progEx = ex; location.hash = 'progreso'; return;
+    case 'goprog': S.progEx = ex; S.progView = 'ejercicios'; location.hash = 'progreso'; return;
+    case 'progview': S.progView = b.dataset.v; return render();
+    case 'goal': {
+      const wk = weekStart(todayISO());
+      S.weekGoals = { ...S.weekGoals, [wk]: Math.min(7, Math.max(2, goalFor(wk) + +b.dataset.v)) };
+      saveSettings(); return render();
+    }
     case 'pick': S.progEx = ex; render(); window.scrollTo({ top: 0 }); return;
     case 'newsession':
       stopRest(); S.rest.open = false; wake?.release?.(); newDraft(); toast('Sesión guardada.');
@@ -1340,13 +1550,14 @@ main.addEventListener('submit', ev => {
     document.activeElement?.blur?.();
     persistDraft(); render();
     if (mode !== 'c') startRest();
+    celebrate();
     if (prev != null && e1rm(set.kg, set.reps) > prev + 1e-9) toast(`¡Récord! 1RM estimado de ${fw(e1rm(set.kg, set.reps))} ${S.unit}`);
   }
   if (kind === 'wod') {
     d.wod = { fmt: d.wod?.fmt || 'fortime', cap: ($('#wod-cap', f).value || '').trim(), result: ($('#wod-res', f).value || '').trim().slice(0, 80), desc: ($('#wod-desc', f).value || '').trim().slice(0, 1000) };
     delete S.inputs['wod-cap']; delete S.inputs['wod-res']; delete S.inputs['wod-desc'];
     if (!d.wod.result && !d.wod.desc) return toast('Escribe el resultado o la descripción del WOD.');
-    persistDraft(); render(); toast('WOD guardado');
+    celebrate(); persistDraft(); render(); toast('WOD guardado');
   }
   if (kind === 'savew') {
     const date = $('#w-date', f).value, v = parseNum($('#w-val', f).value);
@@ -1355,6 +1566,7 @@ main.addEventListener('submit', ev => {
     if (!Number.isFinite(kg) || kg < 25 || kg > 350) return setErr('w', 'w-val', `Escribe tu peso en ${S.unit}, por ejemplo ${S.unit === 'kg' ? '82.4' : '181.6'}.`);
     delete S.errs.w;
     S.inputs['w-val'] = ''; S.inputs['w-date'] = date;
+    celebrate();
     write(() => S.db.collection('weights').doc(date).set({ date, kg: Math.round(kg * 1000) / 1000 }), `Peso guardado: ${fw(kg)} ${S.unit}`);
     render();
   }
@@ -1395,6 +1607,7 @@ addEventListener('hashchange', () => {
 function ready() {
   if (!(S.loaded.w && S.loaded.s && S.loaded.c)) return;
   if (S.status !== 'ready') { S.status = 'ready'; initDraft(); if (S.stage === 'log' && !location.hash) S.tab = 'sesion'; }
+  checkProgress();
   render();
 }
 function onErr(err) { console.error(err); setSync('Sin conexión', true); }
@@ -1413,6 +1626,7 @@ async function boot() {
       if (Array.isArray(c.custom)) S.custom = clone(c.custom);
       if (Number.isFinite(c.rest)) S.rest.secs = c.rest;
       if (c.routineAt && typeof c.routineAt === 'object') S.routineAt = clone(c.routineAt);
+      if (c.weekGoals && typeof c.weekGoals === 'object') S.weekGoals = clone(c.weekGoals);
       if (c.unit && c.unit !== S.unit) setUnit(c.unit, false);
     }
     S.loaded.c = true; ready();
